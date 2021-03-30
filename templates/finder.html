@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- Здесь предлагаем скиллы, близкие тем, которые передаются в инпут пользователем -->
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Curumir</title>
+
+    <!-- CSS -->
+    <link href="/static/styles.css" rel="stylesheet">
+    <script type="text/javascript" src='/static/curumir.js' charset="utf-8"></script>
+
+</head>
+<body>
+    <!-- <header>
+        <nav>
+            <span><a href="/" class="title" title="На главную">Curumir</a></span>
+        </nav>
+    </header> -->
+    <div class="container">
+        <main id="main-content" style="grid-template-columns: auto;">
+            <div class="content-group" style="display: flex; flex-direction: row; align-self: start; gap: 1em;">
+                <input id="finder-skills" type="text" placeholder="Введите компетенции через запятую" style="width: 100%; border: none; background-color: transparent; font-size: inherit; font-family: inherit;">
+            </div>
+            <div class="content-group" style="display: flex; flex-direction: row; align-self: start; gap: 1em;">
+                <div id="country-list" style="display: flex; flex-direction: column">
+                    <div class="content-meta">Страна</div>
+                    <select onchange="contextSetup(this.value)" autocomplete="off">
+                        <option value="ru" selected>Россия</option>
+                        <option value="de">Германия</option>
+                    </select>
+                </div>
+                <div id="areas-list" style="display: flex; flex-direction: column;"></div>
+                <div id="dates-list" style="display: flex; flex-direction: column"></div>
+                <button class="finder" style="align-self: center; margin-left: auto;" id="finder-btn">Подобрать</button>
+            </div>
+            <div class="content-group" id="area-clusters"></div>
+        </main>
+    </div>
+    <script>
+        document.querySelector('#finder-btn').addEventListener('click', getContext);
+        getSkillTags();
+        contextSetup('ru');
+    </script>
+</body>
+</html>

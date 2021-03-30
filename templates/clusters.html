@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Curumir</title>
+
+    <!-- CSS -->
+    <link href="/static/styles.css" rel="stylesheet">
+    <script type="text/javascript" src='/static/curumir.js' charset="utf-8"></script>
+
+</head>
+<body>
+    <!-- <header>
+        <nav>
+            <span><a href="/" class="title" title="На главную">Curumir</a></span>
+        </nav>
+    </header> -->
+    <div class="container">
+        <main id="main-content">
+            <div style="display: flex; flex-direction: column; align-self: start; gap: 1em;">
+                <div class="content-group" id="country-list" style="gap: 0;">
+                    <div class="content-meta">Страна</div>
+                    <select onchange="getCountryData(this.value)" autocomplete="off">
+                        <option value="ru" selected>Россия</option>
+                        <option value="de">Германия</option>
+                    </select>
+                </div>
+                <div class="content-group" id="areas-list" style="gap: 0;"></div>
+                <div class="content-group" id="dates-list"></div>
+            </div>
+            <div class="content-group" id="area-clusters"></div>
+        </main>
+    </div>
+    <script>
+        getSkillTags();
+        getCountryData('ru');
+    </script>
+</body>
+</html>
