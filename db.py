@@ -4,7 +4,7 @@
 import json
 import io
 import zipfile
-
+# просто проще грузить json файлы
 def load_database(db_file):
     with open(db_file, 'r', encoding='utf-8') as db:
         return json.load(db)

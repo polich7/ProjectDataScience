@@ -15,7 +15,6 @@ def vacancy_name_comparison(dict):  # функция оценки кластер
                 if len(x)!=0 and len(y)!=0:#enumerate - получать индекс - 2 цикл # стрипнуть строку в момент препроцессинга. здесь не проверять на пробелы
                     item_0 = ' {} '.format(x)
                     item_1 = ' {} '.format(y)
-                    print(item_0, item_1)
                     if len(item_0)>=len(item_1):
                         if item_0.find(item_1)!= -1:
                             if item_1.strip() not in label_numbers:
@@ -64,7 +63,7 @@ def extract_metadata_rus(area=1061, slice_date='2020-03-05'): # выделени
 #print(extract_metadata(area=1061, slice_date='2020-03-05'))
 
 
-def clusters_evaluation(area=1317, slice_date='2020-08-05', force=False):
+def clusters_evaluation(area=1317, slice_date='2020-04-05', force=False):
 
     vacancy_name_region = {}
 
@@ -91,7 +90,7 @@ def clusters_evaluation(area=1317, slice_date='2020-08-05', force=False):
     # оценка отсюда
     for i in skills_index.values():
         for key, value in clusters.items():
-            if i[2] == ' '.join(pr.norm_preprocess(key)) and value==4:  # если нормальная форма совпала в выделенных навыках и в навыках кластера
+            if i[2] == ' '.join(pr.norm_preprocess(key)) and value==0:  # если нормальная форма совпала в выделенных навыках и в навыках кластера
                 for vacancy in region_data:
                     for item in i[1]:  # смотрим все id вакансий, которые есть у навыка из кластера
                         if item == vacancy['id']:  # если в регионе есть такой id
@@ -108,5 +107,5 @@ def clusters_evaluation(area=1317, slice_date='2020-08-05', force=False):
     else:
         print(max(vacancy_name_region.values())/sum(vacancy_name_region.values()))
     return evaluation_names
-print(clusters_evaluation(area=1317, slice_date='2020-08-05', force=False))
+print(clusters_evaluation(area=1438, slice_date='2020-04-05', force=False))
 # берем центр кластера, смотрим в каких вакансиях он есть, берем названия этих вакансий

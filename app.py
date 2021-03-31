@@ -3,22 +3,20 @@
 
 import flask
 import os
-import parsers.hh as parser
 import wrappers.clustering as clustering
 import preprocessing_ru as pr
+import json
 PROJECT = 'Curumir'
 
 app = flask.Flask(PROJECT)
 app.debug = True
 
-skills = {}
-totals = {}
 regions = {}
 regions_de = [
     'Baden-Württemberg', 'Bayern', 'Berlin', 'Brandenburg', 'Bremen', 'Hamburg', 'Hessen', 'Mecklenburg-Vorpommern', 
     'Niedersachsen', 'Nordrhein-Westfalen', 'Rheinland-Pfalz', 'Saarland', 'Sachsen', 'Sachsen-Anhalt', 'Schleswig-Holstein', 'Thüringen'
 ]
-regions_map = {}
+
 vacancies = []
 
 vacancy_data = {}
@@ -30,17 +28,6 @@ def index():
 @app.route('/finder')
 def finder():
     return flask.render_template('finder.html')
-
-@app.route('/getdata')
-def return_data():
-    name = regions_map[str(flask.request.args.get('id'))]
-    reg_id = str(list(regions.keys())[list(regions.values()).index(name)])
-    reg_skills = sorted(skills[reg_id].items(), key=lambda item: item[1], reverse=True)[0:10]
-    if len(reg_skills) == 0:
-        reg_skills.append(["Недостаточно данных", 'n/a'])
-    reg_total = totals[reg_id]
-    reg_skills.append(reg_total)
-    return flask.jsonify(reg_skills)
 
 
 @app.route('/country', methods=['GET'])
@@ -69,7 +56,7 @@ def get_area_clusters():
         area_clusters = list(clustering.area_affinity_clusters_de(area_de, date))
     clusters = area_clusters[2]
     ready_clusters = []
-    for j in range(len(area_clusters[3])):
+    for j in range(len(area_clusters[3])): # сортировка для читаемых скиллов
         ready_clusters.append(sorted([key for key, value in clusters.items() if value == j]))
     area_clusters[2] = ready_clusters
     return flask.jsonify(area_clusters)
@@ -99,9 +86,8 @@ def get_skill_context():
     return flask.jsonify(area_clusters)
 
 if __name__ == "__main__":
-    skills = parser.load_skills()
-    totals = parser.load_totals()
-    regions = parser.load_regions()
-    regions_map = parser.load_regions_map()
+    with open('./data/regions.json', 'r', encoding='utf-8') as f:
+        regions= json.load(f)
+
 
     app.run(host='0.0.0.0', port=9001)

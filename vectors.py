@@ -4,12 +4,11 @@
 import numpy as np
 from scipy.spatial.distance import pdist, squareform
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+
 from sklearn.cluster import AffinityPropagation
 from sklearn import metrics
 
-from db import load_database, save_database, load_zip
+from db import load_database, load_zip
 skills = {}
 
 def build_area_vectors(area: str, slice_date: str, skills_index: dict, filename='./skills_vectors.tsv', threshold=5) -> list:
@@ -36,7 +35,7 @@ def build_area_vectors(area: str, slice_date: str, skills_index: dict, filename=
                 vectors[i].append(0)
     return vectors
 
-# TODO: довольно костыльно прикрученный расчет векторов для регионов
+
 def build_area_vectors_de(area: str, slice_date: str, skills_index: dict, filename='./skills_vectors.tsv', threshold=5) -> list:
     '''
         Построение n-мерного вектора для каждого навыка.
@@ -59,15 +58,6 @@ def build_area_vectors_de(area: str, slice_date: str, skills_index: dict, filena
                 vectors[i].append(0)
     return vectors
 
-def build_distance_matrix(vectors):
-    data = pd.DataFrame.from_records(vectors).set_index(0)
-    matrix = pd.DataFrame(squareform(pdist(data, metric='cosine')), columns=data.index, index=data.index)
-
-    plt.figure(figsize=(40,40))
-    sns.heatmap(matrix, annot=False, cmap="coolwarm",fmt='.2f', linewidths=.05)
-    plt.show()
-    return matrix
-
 
 def calculate_affinity(vectors: list, verbose=False) -> dict:
     data = pd.DataFrame.from_records(vectors).set_index(0)
@@ -82,7 +72,7 @@ def calculate_affinity(vectors: list, verbose=False) -> dict:
     cluster_centers = affinity.cluster_centers_indices_  # возвращает индексы центров кластеров, поэтому можно соотнести с лейблами потом
     labels = affinity.labels_
 
-    # TODO: Вот этот кусок хорошо бы засунуть в функцию, а то каждый раз перепечатываю
+
     clusters = {}
     skills = data.index.tolist()
     n_skills = len(skills)# сколько скилов
